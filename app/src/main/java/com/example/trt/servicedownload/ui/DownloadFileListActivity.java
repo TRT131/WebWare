@@ -14,6 +14,7 @@ import android.widget.PopupMenu;
 import android.widget.Toast;
 
 import com.doris.sample.greendao.DownloadFileDao;
+import com.example.trt.servicedownload.BaseActivity;
 import com.example.trt.servicedownload.MyApplication;
 import com.example.trt.servicedownload.R;
 import com.example.trt.servicedownload.adapter.DownAdapter;
@@ -32,7 +33,7 @@ import butterknife.ButterKnife;
  * Created by Trt on 2018/6/26.
  */
 
-public class DownloadFileListActivity extends Activity{
+public class DownloadFileListActivity extends BaseActivity{
     @BindView(R.id.downRefresh) SwipeRefreshLayout downRefresh;
     @BindView(R.id.downRecycler) RecyclerView downRecycler;
 
@@ -44,10 +45,8 @@ public class DownloadFileListActivity extends Activity{
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         request();
+        setLayoutRes(R.layout.activity_downlist);
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_downlist);
-        ButterKnife.bind(this);
-        bindView();
     }
 
     public void bindView(){

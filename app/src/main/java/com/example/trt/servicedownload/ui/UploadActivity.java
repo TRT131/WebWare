@@ -21,6 +21,7 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.example.trt.servicedownload.BaseActivity;
 import com.example.trt.servicedownload.Event.DownloadEvent;
 import com.example.trt.servicedownload.Event.UpStopEvent;
 import com.example.trt.servicedownload.Event.UploadEvent;
@@ -46,7 +47,7 @@ import butterknife.OnClick;
  * Created by Trt on 2018/6/22.
  */
 
-public class UploadActivity extends Activity {
+public class UploadActivity extends BaseActivity {
     @BindView(R.id.upload) Button upload;
     @BindView(R.id.stop) Button stop;
     @BindView(R.id.name) TextView name;
@@ -75,12 +76,10 @@ public class UploadActivity extends Activity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_upload);
-        ButterKnife.bind(this);
+        setLayoutRes(R.layout.activity_upload);
         EventBus.getDefault().register(this);
-        BindView();
     }
-    private void BindView(){
+    protected void bindView(){
         Intent intent = getIntent();
         path=intent.getStringExtra("path");
         ftpFileName=intent.getStringExtra("name");

@@ -20,6 +20,7 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.trt.servicedownload.BaseActivity;
 import com.example.trt.servicedownload.Event.DownloadEvent;
 import com.example.trt.servicedownload.Event.RefreshEvent;
 import com.example.trt.servicedownload.MyApplication;
@@ -32,6 +33,8 @@ import com.example.trt.servicedownload.common.Const;
 import com.example.trt.servicedownload.util.FormetFileSize;
 import com.example.trt.servicedownload.util.MyDividerItemDecoration;
 import com.example.trt.servicedownload.util.OkHttpClientInstance;
+import com.flyco.tablayout.CommonTabLayout;
+import com.flyco.tablayout.listener.CustomTabEntity;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -58,54 +61,102 @@ import okhttp3.Request;
 import okhttp3.Response;
 
 
-public class FirstActivity extends Activity {
+public class FirstActivity extends BaseActivity {
 
     @BindView(R.id.myRecycler) RecyclerView myRecycler;
     @BindView(R.id.openUp) TextView openUp;
     @BindView(R.id.myRefresh) SwipeRefreshLayout refreshLayout;
     @BindView(R.id.openDown) TextView opDown;
-
+    @BindView(R.id.commonTab) CommonTabLayout commonTab;
     private static String IP= Const.IP;
     private static int HTTP_PORT=Const.HTTP_PORT;
     private List<Ffile> mDatas=null;
     private OkHttpClient client;
     private MyAdapter adapter;
     private MyApplication application;
-
+    private  ArrayList<CustomTabEntity> mTabEntity;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        request();
+        setLayoutRes(R.layout.activity_first);
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_first);
-        ButterKnife.bind(this);
+        request();
         EventBus.getDefault().register(this);
         application= (MyApplication) getApplication();
-        bindView();
         application.setUploadFile(mDatas);
         permissonRequest();
     }
 
     public void bindView(){
+        mTabEntity=new ArrayList<>();
+        mTabEntity.add(new CustomTabEntity() {
+            @Override
+            public String getTabTitle() {
+                return "云盘";
+            }
+
+            @Override
+            public int getTabSelectedIcon() {
+                return R.drawable.ic_ware_selected;
+            }
+
+            @Override
+            public int getTabUnselectedIcon() {
+                return R.drawable.ic_ware_normal;
+            }
+        });
+        mTabEntity.add(new CustomTabEntity() {
+            @Override
+            public String getTabTitle() {
+                return "发现";
+            }
+
+            @Override
+            public int getTabSelectedIcon() {
+                return R.drawable.ic_find_selected;
+            }
+
+            @Override
+            public int getTabUnselectedIcon() {
+                return R.drawable.ic_find_normal;
+            }
+        });
+        mTabEntity.add(new CustomTabEntity() {
+            @Override
+            public String getTabTitle() {
+                return "我的";
+            }
+
+            @Override
+            public int getTabSelectedIcon() {
+                return R.drawable.ic_set_selected;
+            }
+
+            @Override
+            public int getTabUnselectedIcon() {
+                return R.drawable.ic_set_normal;
+            }
+        });
+        commonTab.setTabData(mTabEntity);
         myRecycler.setLayoutManager(new LinearLayoutManager(this));
         myRecycler.addItemDecoration(new MyDividerItemDecoration(this,LinearLayoutManager.VERTICAL));
         myRecycler.setItemAnimator(new DefaultItemAnimator());
         adapter=new MyAdapter(mDatas);
-         adapter.setOnItemClickListener(new MyAdapter.OnItemClickListener() {
-             @Override
-             public void onItemClick(View view, int position) {
-                 Intent intent=new Intent(FirstActivity.this,DownLoadActivity.class);
-                 Bundle bundle=new Bundle();
-                 bundle.putSerializable("dFile",mDatas.get(position));
-                 bundle.putString("ftpFileName",mDatas.get(position).getFilename());
-                 intent.putExtras(bundle);
-                 startActivity(intent);
-             }
+        adapter.setOnItemClickListener(new MyAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(View view, int position) {
+                Intent intent=new Intent(FirstActivity.this,DownLoadActivity.class);
+                Bundle bundle=new Bundle();
+                bundle.putSerializable("dFile",mDatas.get(position));
+                bundle.putString("ftpFileName",mDatas.get(position).getFilename());
+                intent.putExtras(bundle);
+                startActivity(intent);
+            }
 
-             @Override
-             public void onItemLongClick(View view, int position) {
+            @Override
+            public void onItemLongClick(View view, int position) {
 
-             }
-         });
+            }
+        });
         myRecycler.setAdapter(adapter);
         refreshLayout.setProgressViewOffset(true,30,60);
         refreshLayout.setSize(SwipeRefreshLayout.LARGE);
@@ -167,8 +218,8 @@ public class FirstActivity extends Activity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        client=null;
         EventBus.getDefault().unregister(this);
+        client=null;
     }
 
     private void permissonRequest(){

@@ -53,5 +53,13 @@
             >
         </android.support.v7.widget.RecyclerView>
     </android.support.v4.widget.SwipeRefreshLayout>
-
+    <com.flyco.tablayout.CommonTabLayout
+        android:id="@+id/commonTab"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_alignParentBottom="true"
+        app:tl_iconHeight="40dp"
+        app:tl_textSelectColor="#1296db"
+        app:tl_textUnselectColor="#bfbfbf"
+        ></com.flyco.tablayout.CommonTabLayout>
 </RelativeLayout>

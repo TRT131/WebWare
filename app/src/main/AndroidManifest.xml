@@ -23,8 +23,8 @@
         </activity>
         <activity android:name=".ui.DownLoadActivity" />
         <activity android:name=".ui.UploadActivity" />
-        <activity android:name=".ui.FilePathListActivity"/>
-        <activity android:name=".ui.DownloadFileListActivity"/>
+        <activity android:name=".ui.FilePathListActivity" />
+        <activity android:name=".ui.DownloadFileListActivity" />
 
         <service
             android:name=".service.DownladService"
@@ -34,6 +34,7 @@
             android:name=".service.UploadService"
             android:enabled="true"
             android:exported="true" />
+
     </application>
 
 </manifest>

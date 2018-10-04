@@ -22,6 +22,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 
+import com.example.trt.servicedownload.BaseActivity;
 import com.example.trt.servicedownload.Event.DownStopEvent;
 import com.example.trt.servicedownload.Event.UpStopEvent;
 import com.example.trt.servicedownload.module.Ffile;
@@ -46,7 +47,7 @@ import butterknife.OnClick;
  * Created by Trt on 2017/12/10.
  */
 
-public class DownLoadActivity extends Activity {
+public class DownLoadActivity extends BaseActivity {
 
     @BindView(R.id.download) Button download;
     @BindView(R.id.stop) Button stop;
@@ -61,12 +62,10 @@ public class DownLoadActivity extends Activity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_download);
-        ButterKnife.bind(this);
+        setLayoutRes(R.layout.activity_download);
         EventBus.getDefault().register(this);
-        BindView();
     }
-    private void BindView(){
+    public void bindView(){
         Ffile ffile= (Ffile) getIntent().getSerializableExtra("dFile");
         ftpFileName=ffile.getFilename();
         name.setText(ftpFileName);
