@@ -55,7 +55,7 @@ public class DownloadFileListActivity extends BaseActivity{
         System.out.println("==="+fileList);
         downRecycler.addItemDecoration(new MyDividerItemDecoration(this,LinearLayoutManager.VERTICAL));
         downRecycler.setItemAnimator(new DefaultItemAnimator());
-        downAdapter=new DownAdapter(fileList);
+        downAdapter=new DownAdapter(this,fileList,R.layout.activity_downlist);
         downAdapter.setOnItemClickListener(new DownAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {

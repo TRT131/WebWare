@@ -18,19 +18,14 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.trt.servicedownload.BaseActivity;
-import com.example.trt.servicedownload.Event.DownloadEvent;
 import com.example.trt.servicedownload.Event.RefreshEvent;
 import com.example.trt.servicedownload.MyApplication;
 import com.example.trt.servicedownload.adapter.MyAdapter;
-import com.example.trt.servicedownload.adapter.MyRecyclerAdapter;
-import com.example.trt.servicedownload.adapter.MyRefreshAdapter;
 import com.example.trt.servicedownload.module.Ffile;
 import com.example.trt.servicedownload.R;
 import com.example.trt.servicedownload.common.Const;
-import com.example.trt.servicedownload.util.FormetFileSize;
 import com.example.trt.servicedownload.util.MyDividerItemDecoration;
 import com.example.trt.servicedownload.util.OkHttpClientInstance;
 import com.flyco.tablayout.CommonTabLayout;
@@ -70,7 +65,7 @@ public class FirstActivity extends BaseActivity {
     @BindView(R.id.commonTab) CommonTabLayout commonTab;
     private static String IP= Const.IP;
     private static int HTTP_PORT=Const.HTTP_PORT;
-    private List<Ffile> mDatas=null;
+    private List<Ffile> mDatas=new ArrayList<>();
     private OkHttpClient client;
     private MyAdapter adapter;
     private MyApplication application;
@@ -140,7 +135,7 @@ public class FirstActivity extends BaseActivity {
         myRecycler.setLayoutManager(new LinearLayoutManager(this));
         myRecycler.addItemDecoration(new MyDividerItemDecoration(this,LinearLayoutManager.VERTICAL));
         myRecycler.setItemAnimator(new DefaultItemAnimator());
-        adapter=new MyAdapter(mDatas);
+        adapter=new MyAdapter(this,mDatas,R.layout.activity_first);
         adapter.setOnItemClickListener(new MyAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
